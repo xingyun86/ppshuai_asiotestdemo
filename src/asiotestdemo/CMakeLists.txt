@@ -6,4 +6,5 @@ cmake_minimum_required (VERSION 3.8)
 project ("asiotestdemo")
 
 # Include sub-projects.
+add_subdirectory ("vendor/libressl-3.1.1")
 add_subdirectory ("asiotestdemo")
