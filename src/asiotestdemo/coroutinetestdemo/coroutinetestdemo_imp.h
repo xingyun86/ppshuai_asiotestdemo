@@ -33,9 +33,10 @@ public:
     }
 };
 template <typename T>
-struct sync
+class sync
 {
-    struct promise_type;
+public:
+    class promise_type;
     using handle_type = std_coroutine::coroutine_handle<promise_type>;
     handle_type coro;
 
@@ -74,8 +75,9 @@ struct sync
         std::cout << "We got asked for the return value..." << std::endl;
         return coro.promise().value;
     }
-    struct promise_type
+    class promise_type
     {
+    public:
         T value;
         promise_type()
         {
@@ -105,7 +107,7 @@ struct sync
             Trace t;
             std::cout << "Got an answer of " << v << std::endl;
             value = v;
-            return std_coroutine::suspend_never{};
+            return;// std_coroutine::suspend_never{};
         }
         auto final_suspend() noexcept
         {
@@ -121,9 +123,10 @@ struct sync
 };
 
 template <typename T>
-struct lazy
+class lazy
 {
-    struct promise_type;
+public:
+    class promise_type;
     using handle_type = std_coroutine::coroutine_handle<promise_type>;
     handle_type coro;
 
@@ -162,8 +165,9 @@ struct lazy
         std::cout << "We got asked for the return value..." << std::endl;
         return coro.promise().value;
     }
-    struct promise_type
+    class promise_type
     {
+    public:
         T value;
         promise_type()
         {
@@ -190,10 +194,10 @@ struct lazy
         }
         auto return_value(T v)
         {
-            Trace t;
+            Trace t; 
             std::cout << "Got an answer of " << v << std::endl;
             value = v;
-            return std_coroutine::suspend_never{};
+            return;// std_coroutine::suspend_never{};
         }
         auto final_suspend() noexcept
         {
@@ -260,5 +264,6 @@ int coroutine_test_main()
 {
     std::cout << "Start main()\n";
     auto a = reply();
+    a.get();
     return a.get();
 }
