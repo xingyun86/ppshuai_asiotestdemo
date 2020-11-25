@@ -6,7 +6,13 @@ cmake_minimum_required (VERSION 3.8)
 set(project_name "coroutinetestdemo")
 project(${project_name})
 
+include(CheckIncludeFileCXX)
+CHECK_INCLUDE_FILE_CXX(coroutine HAVE_COROUTINE_H)
+if(HAVE_COROUTINE_H)
 SET(EXPERIMENTAL_SUPPORT OFF)
+else(HAVE_COROUTINE_H)
+SET(EXPERIMENTAL_SUPPORT ON)
+endif(HAVE_COROUTINE_H)
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
@@ -20,7 +26,7 @@ add_executable (${project_name} ${SRCS})
 IF(MSVC)
 	target_compile_options(${project_name} 
 	PRIVATE "/std:c++latest"
-	PRIVATE "/await"
+	#PRIVATE "/await"
 	)
 	list(APPEND EXT_DEF _WIN32_WINNT=0x0600)
 	IF(EXPERIMENTAL_SUPPORT)

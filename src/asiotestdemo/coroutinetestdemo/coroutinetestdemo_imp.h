@@ -102,12 +102,12 @@ public:
             std::cout << "Started the coroutine, don't stop now!" << std::endl;
             return std_coroutine::suspend_never{};
         }
-        auto return_value(T v)
+        void return_value(T v)
         {
             Trace t;
             std::cout << "Got an answer of " << v << std::endl;
             value = v;
-            return;// std_coroutine::suspend_never{};
+            std_coroutine::suspend_never{};
         }
         auto final_suspend() noexcept
         {
@@ -192,12 +192,12 @@ public:
             std::cout << "Started the coroutine, put the brakes on!" << std::endl;
             return std_coroutine::suspend_always{};
         }
-        auto return_value(T v)
+        void return_value(T v)
         {
             Trace t; 
             std::cout << "Got an answer of " << v << std::endl;
             value = v;
-            return;// std_coroutine::suspend_never{};
+            std_coroutine::suspend_never{};
         }
         auto final_suspend() noexcept
         {
